@@ -1,0 +1,37 @@
+name: Get Feed
+
+on:
+  schedule:
+    - cron: "30 12 * * *" # 6pm IST
+
+jobs:
+  get-feed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Repository
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Cache NPM Dependencies
+        id: cache-npm-dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      - name: Install NPM Dependencies if not cached
+        if: steps.cache-npm-dependencies.outputs.cache-hit != 'true'
+        run: |
+          npm install
+
+      - name: Build and Run Project
+        run: |
+          npm run build && npm run feed
