@@ -82,7 +82,7 @@ export async function deleteOldUnreadItemsFromNotion() {
   const response = await notion.databases.query({
     database_id: NOTION_FEED_READER_DATABASE_ID,
     filter: {
-      or: [
+      and: [
         {
           property: 'Created At',
           date: {

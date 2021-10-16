@@ -1,6 +1,6 @@
 import getNewFeedItems from './feed';
 import { addFeedItemToNotion, deleteOldUnreadItemsFromNotion } from './notion';
-import { htmlToNotionBlocks } from './parser';
+import htmlToNotionBlocks from './parser';
 
 async function index() {
   const feedItems = await getNewFeedItems();
@@ -11,7 +11,7 @@ async function index() {
     const notionItem = {
       title: item.title,
       link: item.link,
-      content: htmlToNotionBlocks(item.description),
+      content: htmlToNotionBlocks(item.content),
     };
 
     await addFeedItemToNotion(notionItem);

@@ -22,7 +22,7 @@
     "@instantish/martian": "^1.0.3",
     "@notionhq/client": "^0.4.3",
     "dotenv": "^10.0.0",
-    "rss-to-json": "^2.0.2",
+    "rss-parser": "^3.12.0",
     "turndown": "^7.1.1"
   },
   "devDependencies": {
