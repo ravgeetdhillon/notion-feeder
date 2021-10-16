@@ -1,0 +1,55 @@
+{
+  "name": "notion-feed-reader",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A Node app for creating a Feed Reader in Notion.",
+  "keywords": [
+    "notion",
+    "notion-api",
+    "notion-feed-reader",
+    "feed-reader",
+    "node",
+    "javascript"
+  ],
+  "scripts": {
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "feed": "node dist/index.js"
+  },
+  "author": "Ravgeet Dhillon <ravgeetdhillon@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@instantish/martian": "^1.0.3",
+    "@notionhq/client": "^0.4.3",
+    "dotenv": "^10.0.0",
+    "rss-to-json": "^2.0.2",
+    "turndown": "^7.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-webpack-plugin": "^3.0.1",
+    "prettier": "^2.4.1",
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.0"
+  },
+  "engines": {
+    "node": ">=10.16.0 <=14.x.x",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ravgeetdhillon/notion-feed-reader"
+  },
+  "bugs": {
+    "url": "https://github.com/ravgeetdhillon/notion-feed-reader/issues"
+  },
+  "homepage": "https://github.com/ravgeetdhillon/notion-feed-reader"
+}
