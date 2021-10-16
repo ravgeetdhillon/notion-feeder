@@ -17,6 +17,16 @@ export async function getFeedUrlsFromNotion() {
 
   const response = await notion.databases.query({
     database_id: NOTION_FEEDS_DATABASE_ID,
+    filter: {
+      or: [
+        {
+          property: 'Enabled',
+          checkbox: {
+            equals: true,
+          },
+        },
+      ],
+    },
   });
 
   const feeds = response.results.map((item) => ({
