@@ -38,4 +38,4 @@ jobs:
 
       - name: Build and Run Project
         run: |
-          npm run build && npm run feed
+          npm run build-prod && npm run feed
