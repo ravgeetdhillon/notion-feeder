@@ -1,6 +1,8 @@
 [![CI](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml/badge.svg)](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<a href="https://www.producthunt.com/posts/notion-feeder?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-notion-feeder" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=316289&theme=light" alt="Notion Feeder - Convert Notion to a Feed Reader | Product Hunt" style="width: 125px; height: 27px;" width="125" height="27" /></a>
+
 # Notion Feeder
 
 A Node.js app for creating a Feed Reader in [Notion](https://notion.so).
@@ -13,11 +15,11 @@ Separate database for your feed sources and feed items.
 
 ![](/screenshots/image-1.png)
 
-Add, enable and disbale your feed sources.
+Add, enable and disable your feed sources.
 
 ![](/screenshots/image-2.png)
 
-Feeds sourced daily and stored in Reader database. New feed items are marked with 🔥.
+Feeds are sourced daily and stored in the **Reader** database. New feed items are marked with 🔥.
 
 ![](/screenshots/image-3.png)
 
@@ -28,6 +30,32 @@ Read a feed directly in Notion Page View.
 Different views of accessing Unread, Starred feed items.
 
 ![](/screenshots/image-5.png)
+
+## Setup
+
+1. Create a new [Notion Integration](https://www.notion.so/my-integrations) and copy the secret code which you'll use as `NOTION_API_TOKEN` in Step 4.
+
+2. Duplicate this [template](https://ravsamhq.notion.site/Feeder-fa2aa54827fa42c2af1eb25c7a45a408) to your Notion workspace.
+
+3. Once the template is available on your Notion Workspace, open the **Reader** database. Click *Share > Invite* and search the Notion integration you created in Step 1 and Click **Invite**. Do the same for the **Feeds** database.
+
+4. Go to your forked GitHub repository. Click *Settings > Secrets*. Add the following three secrets along with their values.
+   ```
+   NOTION_API_TOKEN
+   NOTION_READER_DATABASE_ID
+   NOTION_FEEDS_DATABASE_ID
+   ```
+    > To find your database id, visit your database on Notion. You'll get a URL like this: https://www.notion.so/{workspace_name}/{database_id}?v={view_id}.
+
+That's it. Now every day, your feed will be updated at 12:30 UTC. You can change the time at which the script runs from [here](.github/workflows/main.yml#L5).
+
+***
+
+If you loved this product, consider sending some love to me. This will enable me to work on more project like these in the future.
+
+[![PayPal Donate Button](https://images.squarespace-cdn.com/content/v1/55f62c4ce4b02545cc6ee94f/1558204823259-CQ0YNKZEHP7W5LO64PBU/paypal-donate-button-1.PNG?format=300w)](https://paypal.me/ravgeetdhillon)
+
+***
 
 ## Development
 
@@ -68,4 +96,5 @@ $ npm run watch
 
 ## Extra
 
-- In case you get stuck at somewhere, feel free to contact me at my [email](mailto:ravgeetdhillon@gmail.com).
+- If you love my work, consider sending some love via [Paypal](https://paypal.me/ravgeetdhillon).
+- In case you get stuck somewhere, feel free to contact me at my [email](mailto:ravgeetdhillon@gmail.com).
