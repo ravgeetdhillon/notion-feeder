@@ -5,7 +5,7 @@ dotenv.config();
 
 const {
   NOTION_API_TOKEN,
-  NOTION_FEED_READER_DATABASE_ID,
+  NOTION_READER_DATABASE_ID,
   NOTION_FEEDS_DATABASE_ID,
   CI,
 } = process.env;
@@ -50,7 +50,7 @@ export async function addFeedItemToNotion(notionItem) {
 
   await notion.pages.create({
     parent: {
-      database_id: NOTION_FEED_READER_DATABASE_ID,
+      database_id: NOTION_READER_DATABASE_ID,
     },
     properties: {
       Title: {
@@ -83,7 +83,7 @@ export async function deleteOldUnreadItemsFromNotion() {
   // Query the feed reader database
   // and fetch only those items that are unread or created before last 30 days
   const response = await notion.databases.query({
-    database_id: NOTION_FEED_READER_DATABASE_ID,
+    database_id: NOTION_READER_DATABASE_ID,
     filter: {
       and: [
         {

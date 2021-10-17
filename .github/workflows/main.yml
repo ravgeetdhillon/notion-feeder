@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
-      NOTION_FEED_READER_DATABASE_ID: ${{ secrets.NOTION_FEED_READER_DATABASE_ID }}
+      NOTION_READER_DATABASE_ID: ${{ secrets.NOTION_READER_DATABASE_ID }}
       NOTION_FEEDS_DATABASE_ID: ${{ secrets.NOTION_FEEDS_DATABASE_ID }}
     steps:
       - name: Setup Repository
