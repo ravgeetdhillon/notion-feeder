@@ -14,6 +14,7 @@
   "scripts": {
     "watch": "webpack --watch",
     "build": "webpack",
+    "build-prod": "webpack --env mode='production'",
     "feed": "node dist/index.js"
   },
   "author": "Ravgeet Dhillon <ravgeetdhillon@gmail.com>",

@@ -7,12 +7,15 @@ const {
   NOTION_API_TOKEN,
   NOTION_FEED_READER_DATABASE_ID,
   NOTION_FEEDS_DATABASE_ID,
+  CI,
 } = process.env;
+
+const logLevel = CI ? LogLevel.INFO : LogLevel.DEBUG;
 
 export async function getFeedUrlsFromNotion() {
   const notion = new Client({
     auth: NOTION_API_TOKEN,
-    logLevel: LogLevel.DEBUG,
+    logLevel,
   });
 
   const response = await notion.databases.query({
@@ -42,7 +45,7 @@ export async function addFeedItemToNotion(notionItem) {
 
   const notion = new Client({
     auth: NOTION_API_TOKEN,
-    logLevel: LogLevel.DEBUG,
+    logLevel,
   });
 
   await notion.pages.create({
@@ -70,7 +73,7 @@ export async function addFeedItemToNotion(notionItem) {
 export async function deleteOldUnreadItemsFromNotion() {
   const notion = new Client({
     auth: NOTION_API_TOKEN,
-    logLevel: LogLevel.DEBUG,
+    logLevel,
   });
 
   // Create a datetime which is 30 days earlier than the current time
