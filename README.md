@@ -1,7 +1,7 @@
 [![CI](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml/badge.svg)](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-<a href="https://www.producthunt.com/posts/notion-feeder?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-notion-feeder" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=316289&theme=light" alt="Notion Feeder - Convert Notion to a Feed Reader | Product Hunt" style="width: 125px; height: 27px;" width="125" height="27" /></a>
+<a href="https://www.producthunt.com/posts/notion-feeder?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-notion-feeder" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=316289&theme=light" alt="Notion Feeder - Convert Notion to a Feed Reader | Product Hunt" style="width: 166px; height: 36px;" width="166" height="36" /></a>
 
 # Notion Feeder
 
@@ -39,7 +39,7 @@ Different views of accessing Unread, Starred feed items.
 
 3. Once the template is available on your Notion Workspace, open the **Reader** database. Click *Share > Invite* and search the Notion integration you created in Step 1 and Click **Invite**. Do the same for the **Feeds** database.
 
-4. Go to your forked GitHub repository. Click *Settings > Secrets*. Add the following three secrets along with their values.
+4. Fork this GitHub repository. Once forking is complete, go to your forked GitHub repository. Click *Settings > Secrets*. Add the following three secrets along with their values.
    ```
    NOTION_API_TOKEN
    NOTION_READER_DATABASE_ID
@@ -96,5 +96,5 @@ $ npm run watch
 
 ## Extra
 
-- If you love my work, consider sending some love via [Paypal](https://paypal.me/ravgeetdhillon).
+- You can request features and file bugs [here](https://github.com/ravgeetdhillon/notion-feeder/issues).
 - In case you get stuck somewhere, feel free to contact me at my [email](mailto:ravgeetdhillon@gmail.com).
