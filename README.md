@@ -1,4 +1,5 @@
-[![CI](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml/badge.svg)](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml)
+[![Release](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/release.yml/badge.svg)](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/release.yml)
+[![Get Feed](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml/badge.svg)](https://github.com/ravgeetdhillon/notion-feeder/actions/workflows/main.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <a href="https://www.producthunt.com/posts/notion-feeder?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-notion-feeder" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=316289&theme=light" alt="Notion Feeder - Convert Notion to a Feed Reader | Product Hunt" style="width: 166px; height: 36px;" width="166" height="36" /></a>
@@ -39,7 +40,7 @@ Different views of accessing Unread, Starred feed items.
 
 3. Once the template is available on your Notion Workspace, open the **Reader** database. Click *Share > Invite* and search the Notion integration you created in Step 1 and Click **Invite**. Do the same for the **Feeds** database.
 
-4. Fork this GitHub repository. Once forking is complete, go to your forked GitHub repository. Click *Settings > Secrets*. Add the following three secrets along with their values.
+4. Fork this GitHub repository and once forking is complete, go to your forked GitHub repository. Go to *Settings > Secrets*. Add the following three secrets along with their values.
    ```
    NOTION_API_TOKEN
    NOTION_READER_DATABASE_ID
@@ -58,6 +59,8 @@ If you loved this product, consider sending some love to me. This will enable me
 ***
 
 ## Development
+
+You are more than welcome to contribute to this project.
 
 ### Prerequisites
 
