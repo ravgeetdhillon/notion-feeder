@@ -24,5 +24,8 @@ export default async function getNewFeedItems() {
     allNewFeedItems = [...allNewFeedItems, ...feedItems];
   }
 
+  // sort feed items by published date
+  allNewFeedItems.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
+
   return allNewFeedItems;
 }

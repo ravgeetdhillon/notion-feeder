@@ -28,7 +28,7 @@ module.exports = (env) => {
       extensions: ['.js'],
     },
     optimization: {
-      minimize: isProductionMode,
+      minimize: false,
     },
     performance: {
       hints: false,
