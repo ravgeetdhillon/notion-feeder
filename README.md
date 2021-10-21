@@ -48,6 +48,8 @@ Different views of accessing Unread, Starred feed items.
    ```
     > To find your database id, visit your database on Notion. You'll get a URL like this: https://www.notion.so/{workspace_name}/{database_id}?v={view_id}.
 
+5. Delete the [release workflow file](.github/workflows/release.yml) as it is only required in the original repository.
+
 That's it. Now every day, your feed will be updated at 12:30 UTC. You can change the time at which the script runs from [here](.github/workflows/main.yml#L5).
 
 ***
