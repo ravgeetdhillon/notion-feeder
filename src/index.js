@@ -12,6 +12,7 @@ async function index() {
       title: item.title,
       link: item.link,
       content: htmlToNotionBlocks(item.content),
+      feedId: item.feed.pageId,
     };
 
     await addFeedItemToNotion(notionItem);
