@@ -2,7 +2,7 @@ name: Get Feed
 
 on:
   schedule:
-    - cron: "24 07 * * *" # 6pm IST
+    - cron: "* */1 * * *" # Every hour
 
 jobs:
   get-feed:
