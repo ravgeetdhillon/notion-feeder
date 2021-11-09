@@ -49071,7 +49071,7 @@ function jsonToNotionBlocks(markdownContent) {
 }
 
 function htmlToNotionBlocks(htmlContent) {
-  const imageUrlRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|webp|gif|png)/gi;
+  const imageUrlRegex = /(http(s?):).*\.(?:jpg|jpeg|webp|gif|png)/gi;
   const markdownContent = htmlToMarkdown(htmlContent);
   const notionBlocks = jsonToNotionBlocks(markdownContent);
   const notionBlocksWithImages = notionBlocks.map(block => {
