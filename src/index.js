@@ -12,7 +12,9 @@ async function index() {
       title: item.title,
       link: item.link,
       content: htmlToNotionBlocks(item.content),
-      feedId: item.feed.pageId,
+      feed: item.feed,
+      pubDate: item.pubDate,
+      creator: item['dc:creator'],
     };
 
     await addFeedItemToNotion(notionItem);

@@ -35,14 +35,14 @@ export async function getFeedUrlsFromNotion() {
   const feeds = response.results.map((item) => ({
     title: item.properties.Title.title[0].plain_text,
     feedUrl: item.properties.Link.url,
-    pageId: item.id,
+    page: item,
   }));
 
   return feeds;
 }
 
 export async function addFeedItemToNotion(notionItem) {
-  const { title, link, content, feedId } = notionItem;
+  const { title, link, content, feed, pubDate, creator } = notionItem;
 
   const notion = new Client({
     auth: NOTION_API_TOKEN,
@@ -66,10 +66,29 @@ export async function addFeedItemToNotion(notionItem) {
       Link: {
         url: link,
       },
+      Published: {
+        date: {
+          start: new Date(pubDate).toISOString(),
+        },
+      },
+      Tags: {
+        multi_select: feed.page.properties.Tags.multi_select.map((item) => ({
+          name: item.name,
+        })),
+      },
+      Creator: {
+        rich_text: [
+          {
+            text: {
+              content: creator,
+            },
+          },
+        ],
+      },
       Feed: {
         relation: [
           {
-            id: feedId,
+            id: feed.page.id,
           },
         ],
       },

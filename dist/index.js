@@ -47979,7 +47979,7 @@ async function getFeedUrlsFromNotion() {
   const feeds = response.results.map(item => ({
     title: item.properties.Title.title[0].plain_text,
     feedUrl: item.properties.Link.url,
-    pageId: item.id
+    page: item
   }));
   return feeds;
 }
@@ -47988,7 +47988,9 @@ async function addFeedItemToNotion(notionItem) {
     title,
     link,
     content,
-    feedId
+    feed,
+    pubDate,
+    creator
   } = notionItem;
   const notion = new src/* Client */.KU({
     auth: NOTION_API_TOKEN,
@@ -48009,9 +48011,26 @@ async function addFeedItemToNotion(notionItem) {
       Link: {
         url: link
       },
+      Published: {
+        date: {
+          start: new Date(pubDate).toISOString()
+        }
+      },
+      Tags: {
+        multi_select: feed.page.properties.Tags.multi_select.map(item => ({
+          name: item.name
+        }))
+      },
+      Creator: {
+        rich_text: [{
+          text: {
+            content: creator
+          }
+        }]
+      },
       Feed: {
         relation: [{
-          id: feedId
+          id: feed.page.id
         }]
       }
     },
@@ -49088,7 +49107,9 @@ async function index() {
       title: item.title,
       link: item.link,
       content: htmlToNotionBlocks(item.content),
-      feedId: item.feed.pageId
+      feed: item.feed,
+      pubDate: item.pubDate,
+      creator: item['dc:creator']
     };
     await addFeedItemToNotion(notionItem);
   }
