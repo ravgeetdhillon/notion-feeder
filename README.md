@@ -40,7 +40,13 @@ Different views of accessing Unread, Starred feed items.
 
 3. Once the template is available on your Notion Workspace, open the **Reader** database. Click *Share > Invite* and search the Notion integration you created in Step 1 and Click **Invite**. Do the same for the **Feeds** database.
 
-4. Fork this GitHub repository and once forking is complete, go to your forked GitHub repository. Go to *Settings > Secrets*. Add the following three secrets along with their values.
+4. Fork this GitHub repository and once forking is complete, go to your forked GitHub repository.
+
+5. Enable the GitHub Actions by visiting the **Actions** tab and click "I understand my workflows, enable them".
+
+6. Click on the **Get Feed** action in the left panel and then click "Enable workflow".
+
+7. Go to *Settings > Secrets*. Add the following three secrets along with their values as **Repository secrets**.
    ```
    NOTION_API_TOKEN
    NOTION_READER_DATABASE_ID
@@ -48,7 +54,7 @@ Different views of accessing Unread, Starred feed items.
    ```
     > To find your database id, visit your database on Notion. You'll get a URL like this: https://www.notion.so/{workspace_name}/{database_id}?v={view_id}.
 
-5. Delete the [release workflow file](.github/workflows/release.yml) as it is only required in the original repository.
+8. Delete the [release workflow file](.github/workflows/release.yml) as it is only required in the original repository.
 
 That's it. Now every day, your feed will be updated at 12:30 UTC. You can change the time at which the script runs from [here](.github/workflows/main.yml#L5).
 
