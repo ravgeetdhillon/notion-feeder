@@ -12,6 +12,24 @@ const {
 
 const logLevel = CI ? LogLevel.INFO : LogLevel.DEBUG;
 
+export async function getExistingPages(items) {
+  const notion = new Client({
+    auth: NOTION_API_TOKEN,
+    logLevel,
+  });
+  const response = await notion.databases.query({
+    database_id: NOTION_READER_DATABASE_ID,
+    or: items.map((item) => ({
+      property: 'Link',
+      text: {
+        equals: item.link,
+      },
+    })),
+  });
+
+  return response.results;
+}
+
 export async function getFeedUrlsFromNotion() {
   const notion = new Client({
     auth: NOTION_API_TOKEN,
