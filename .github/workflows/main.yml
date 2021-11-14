@@ -2,7 +2,7 @@ name: Get Feed
 
 on:
   schedule:
-    - cron: "0 12 * * *" # at 12:00 in UTC, which is 4:00 in PST
+    - cron: "0 * * * *" # at 12:00 in UTC, which is 4:00 in PST
 
 jobs:
   get-feed:
