@@ -48012,44 +48012,59 @@ async function addFeedItemToNotion(notionItem) {
     auth: NOTION_API_TOKEN,
     logLevel
   });
-  await notion.pages.create({
-    parent: {
-      database_id: NOTION_READER_DATABASE_ID
-    },
-    properties: {
-      Title: {
-        title: [{
-          text: {
-            content: title
-          }
-        }]
-      },
-      Link: {
-        url: link
-      },
+  let publishedData = {};
+
+  if (pubDate !== undefined) {
+    publishedData = {
       Published: {
         date: {
           start: new Date(pubDate).toISOString()
         }
-      },
-      Tags: {
-        multi_select: feed.page.properties.Tags.multi_select.map(item => ({
-          name: item.name
-        }))
-      },
+      }
+    };
+  }
+
+  let creatorData = {};
+
+  if (creator !== undefined) {
+    creatorData = {
       Creator: {
         rich_text: [{
           text: {
             content: creator
           }
         }]
-      },
-      Feed: {
-        relation: [{
-          id: feed.page.id
-        }]
       }
+    };
+  }
+
+  const propertiesData = {
+    Title: {
+      title: [{
+        text: {
+          content: title
+        }
+      }]
     },
+    Link: {
+      url: link
+    },
+    Tags: {
+      multi_select: feed.page.properties.Tags.multi_select.map(item => ({
+        name: item.name
+      }))
+    },
+    Feed: {
+      relation: [{
+        id: feed.page.id
+      }]
+    }
+  };
+  await notion.pages.create({
+    parent: {
+      database_id: NOTION_READER_DATABASE_ID
+    },
+    properties: Object.assign({}, propertiesData, publishedData, creatorData),
     children: content
   });
 }
