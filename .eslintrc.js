@@ -15,5 +15,6 @@ module.exports = {
     'no-unused-vars': ['off'],
     'no-plusplus': ['off'],
     'no-await-in-loop': ['off'],
+    'no-console': 'off',
   },
 };
