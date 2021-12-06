@@ -1,343 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 129:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.markdownToRichText = exports.markdownToBlocks = void 0;
-const unified_1 = __importDefault(__webpack_require__(8835));
-const remark_parse_1 = __importDefault(__webpack_require__(2861));
-const internal_1 = __webpack_require__(2577);
-const remark_gfm_1 = __importDefault(__webpack_require__(43));
-/**
- * Parses Markdown content into Notion Blocks.
- * - Supports all heading types (heading depths 4, 5, 6 are treated as 3 for Notion)
- * - Supports numbered lists, bulleted lists, to-do lists
- * - Supports italics, bold, strikethrough, inline code, hyperlinks
- *
- * Per Notion limitations, these markdown attributes are not supported:
- * - Tables (removed)
- * - HTML tags (removed)
- * - Thematic breaks (removed)
- * - Code blocks (treated as paragraph)
- * - Block quotes (treated as paragraph)
- *
- * Supports GitHub-flavoured Markdown.
- *
- * @param body any Markdown or GFM content
- */
-function markdownToBlocks(body) {
-    const root = unified_1.default().use(remark_parse_1.default).use(remark_gfm_1.default).parse(body);
-    return internal_1.parseBlocks(root);
-}
-exports.markdownToBlocks = markdownToBlocks;
-/**
- * Parses inline Markdown content into Notion RichText objects.
- * Only supports plain text, italics, bold, strikethrough, inline code, and hyperlinks.
- *
- * @param text any inline Markdown or GFM content
- */
-function markdownToRichText(text) {
-    const root = unified_1.default().use(remark_parse_1.default).use(remark_gfm_1.default).parse(text);
-    return internal_1.parseRichText(root);
-}
-exports.markdownToRichText = markdownToRichText;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 9024:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.toDo = exports.numberedListItem = exports.bulletedListItem = exports.headingThree = exports.headingTwo = exports.headingOne = exports.paragraph = void 0;
-function paragraph(text) {
-    return {
-        object: 'block',
-        type: 'paragraph',
-        paragraph: {
-            text: text,
-        },
-    };
-}
-exports.paragraph = paragraph;
-function headingOne(text) {
-    return {
-        object: 'block',
-        type: 'heading_1',
-        heading_1: {
-            text: text,
-        },
-    };
-}
-exports.headingOne = headingOne;
-function headingTwo(text) {
-    return {
-        object: 'block',
-        type: 'heading_2',
-        heading_2: {
-            text: text,
-        },
-    };
-}
-exports.headingTwo = headingTwo;
-function headingThree(text) {
-    return {
-        object: 'block',
-        type: 'heading_3',
-        heading_3: {
-            text: text,
-        },
-    };
-}
-exports.headingThree = headingThree;
-function bulletedListItem(text) {
-    return {
-        object: 'block',
-        type: 'bulleted_list_item',
-        bulleted_list_item: {
-            text: text,
-        },
-    };
-}
-exports.bulletedListItem = bulletedListItem;
-function numberedListItem(text) {
-    return {
-        object: 'block',
-        type: 'numbered_list_item',
-        numbered_list_item: {
-            text: text,
-        },
-    };
-}
-exports.numberedListItem = numberedListItem;
-function toDo(checked, text) {
-    return {
-        object: 'block',
-        type: 'to_do',
-        to_do: {
-            text: text,
-            checked: checked,
-        },
-    };
-}
-exports.toDo = toDo;
-//# sourceMappingURL=blocks.js.map
-
-/***/ }),
-
-/***/ 7411:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.richText = void 0;
-function richText(content, options = {}) {
-    var _a;
-    const annotations = (_a = options.annotations) !== null && _a !== void 0 ? _a : {};
-    return {
-        type: 'text',
-        annotations: {
-            bold: false,
-            strikethrough: false,
-            underline: false,
-            italic: false,
-            code: false,
-            color: 'default',
-            ...annotations,
-        },
-        text: {
-            content: content,
-            link: options.url
-                ? {
-                    type: 'url',
-                    url: options.url,
-                }
-                : undefined,
-        },
-    };
-}
-exports.richText = richText;
-//# sourceMappingURL=common.js.map
-
-/***/ }),
-
-/***/ 6850:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(9024), exports);
-__exportStar(__webpack_require__(7411), exports);
-__exportStar(__webpack_require__(2914), exports);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 2577:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.parseRichText = exports.parseBlocks = void 0;
-const notion = __importStar(__webpack_require__(6850));
-function parseInline(element, options) {
-    var _a, _b;
-    const copy = {
-        annotations: {
-            ...((_a = options === null || options === void 0 ? void 0 : options.annotations) !== null && _a !== void 0 ? _a : {}),
-        },
-        url: options === null || options === void 0 ? void 0 : options.url,
-    };
-    switch (element.type) {
-        case 'image':
-            return [notion.richText((_b = element.title) !== null && _b !== void 0 ? _b : element.url, copy)];
-        case 'text':
-            return [notion.richText(element.value, copy)];
-        case 'delete':
-            copy.annotations.strikethrough = true;
-            return element.children.flatMap(child => parseInline(child, copy));
-        case 'emphasis':
-            copy.annotations.italic = true;
-            return element.children.flatMap(child => parseInline(child, copy));
-        case 'strong':
-            copy.annotations.bold = true;
-            return element.children.flatMap(child => parseInline(child, copy));
-        case 'link':
-            copy.url = element.url;
-            return element.children.flatMap(child => parseInline(child, copy));
-        case 'inlineCode':
-            copy.annotations.code = true;
-            return [notion.richText(element.value, copy)];
-        default:
-            return [];
-    }
-}
-function parseParagraph(element) {
-    const text = element.children.flatMap(child => parseInline(child));
-    return notion.paragraph(text);
-}
-function parseHeading(element) {
-    const text = element.children.flatMap(child => parseInline(child));
-    switch (element.depth) {
-        case 1:
-            return notion.headingOne(text);
-        case 2:
-            return notion.headingTwo(text);
-        default:
-            return notion.headingThree(text);
-    }
-}
-function parseCode(element) {
-    const text = [notion.richText(element.value, { annotations: { code: true } })];
-    return notion.paragraph(text);
-}
-function parseList(element) {
-    return element.children.flatMap(item => {
-        const paragraph = item.children[0];
-        if (paragraph.type !== 'paragraph') {
-            return [];
-        }
-        const text = paragraph.children.flatMap(child => parseInline(child));
-        if (element.start !== null && element.start !== undefined) {
-            return [notion.numberedListItem(text)];
-        }
-        else if (item.checked !== null && item.checked !== undefined) {
-            return [notion.toDo(item.checked, text)];
-        }
-        else {
-            return [notion.bulletedListItem(text)];
-        }
-    });
-}
-function parseNode(node) {
-    switch (node.type) {
-        case 'heading':
-            return [parseHeading(node)];
-        case 'paragraph':
-            return [parseParagraph(node)];
-        case 'code':
-            return [parseCode(node)];
-        case 'blockquote':
-            return node.children.flatMap(parseNode);
-        case 'list':
-            return parseList(node);
-        default:
-            return [];
-    }
-}
-function parseBlocks(root) {
-    return root.children.flatMap(parseNode);
-}
-exports.parseBlocks = parseBlocks;
-function parseRichText(root) {
-    if (root.children.length !== 1 || root.children[0].type !== 'paragraph') {
-        throw new Error(`Unsupported markdown element: ${JSON.stringify(root)}`);
-    }
-    const paragraph = root.children[0];
-    return paragraph.children.flatMap(child => parseInline(child));
-}
-exports.parseRichText = parseRichText;
-//# sourceMappingURL=internal.js.map
-
-/***/ }),
-
-/***/ 2914:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-/**
- * Notion API Types
- *
- * This file contains type definitions for common object types across various interfaces in the Notion API.
- * In the future, the contents of this file will be generated from an API definition.
- */
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-//# sourceMappingURL=api-types.js.map
-
-/***/ }),
-
 /***/ 8816:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
@@ -801,13 +464,19 @@ exports.updateBlock = {
         "audio",
         "code",
         "equation",
+        "divider",
+        "breadcrumb",
+        "table_of_contents",
+        "link_to_page",
         "paragraph",
         "bulleted_list_item",
         "numbered_list_item",
         "quote",
         "to_do",
         "toggle",
+        "template",
         "callout",
+        "synced_block",
     ],
     path: (p) => `blocks/${p.block_id}`,
 };
@@ -1183,6 +852,472 @@ function logLevelSeverity(level) {
 }
 exports.logLevelSeverity = logLevelSeverity;
 //# sourceMappingURL=logging.js.map
+
+/***/ }),
+
+/***/ 4906:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.markdownToRichText = exports.markdownToBlocks = void 0;
+const unified_1 = __importDefault(__webpack_require__(8835));
+const remark_parse_1 = __importDefault(__webpack_require__(2861));
+const internal_1 = __webpack_require__(3521);
+const remark_gfm_1 = __importDefault(__webpack_require__(43));
+/**
+ * Parses Markdown content into Notion Blocks.
+ * - Supports all heading types (heading depths 4, 5, 6 are treated as 3 for Notion)
+ * - Supports numbered lists, bulleted lists, to-do lists
+ * - Supports italics, bold, strikethrough, inline code, hyperlinks
+ *
+ * Per Notion limitations, these markdown attributes are not supported:
+ * - Tables (removed)
+ * - HTML tags (removed)
+ * - Thematic breaks (removed)
+ * - Code blocks (treated as paragraph)
+ * - Block quotes (treated as paragraph)
+ *
+ * Supports GitHub-flavoured Markdown.
+ *
+ * @param body any Markdown or GFM content
+ */
+function markdownToBlocks(body, allowUnsupportedObjectType = false) {
+    const root = unified_1.default().use(remark_parse_1.default).use(remark_gfm_1.default).parse(body);
+    return internal_1.parseBlocks(root, allowUnsupportedObjectType);
+}
+exports.markdownToBlocks = markdownToBlocks;
+/**
+ * Parses inline Markdown content into Notion RichText objects.
+ * Only supports plain text, italics, bold, strikethrough, inline code, and hyperlinks.
+ *
+ * @param text any inline Markdown or GFM content
+ */
+function markdownToRichText(text) {
+    const root = unified_1.default().use(remark_parse_1.default).use(remark_gfm_1.default).parse(text);
+    return internal_1.parseRichText(root);
+}
+exports.markdownToRichText = markdownToRichText;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 9873:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.tableCell = exports.tableRow = exports.table = exports.toDo = exports.numberedListItem = exports.bulletedListItem = exports.headingThree = exports.headingTwo = exports.headingOne = exports.table_of_contents = exports.image = exports.blockquote = exports.code = exports.paragraph = void 0;
+function paragraph(text) {
+    return {
+        object: 'block',
+        type: 'paragraph',
+        paragraph: {
+            text: text,
+        },
+    };
+}
+exports.paragraph = paragraph;
+function code(text) {
+    return {
+        object: 'block',
+        type: 'code',
+        code: {
+            text: text,
+            language: 'javascript',
+        },
+    };
+}
+exports.code = code;
+function blockquote(text) {
+    return {
+        object: 'block',
+        type: 'quote',
+        quote: {
+            text: text,
+        },
+    };
+}
+exports.blockquote = blockquote;
+function image(url) {
+    return {
+        object: 'block',
+        type: 'image',
+        image: {
+            type: 'external',
+            external: {
+                url: url,
+            },
+        },
+    };
+}
+exports.image = image;
+function table_of_contents() {
+    return {
+        object: 'block',
+        type: 'table_of_contents',
+        table_of_contents: {},
+    };
+}
+exports.table_of_contents = table_of_contents;
+function headingOne(text) {
+    return {
+        object: 'block',
+        type: 'heading_1',
+        heading_1: {
+            text: text,
+        },
+    };
+}
+exports.headingOne = headingOne;
+function headingTwo(text) {
+    return {
+        object: 'block',
+        type: 'heading_2',
+        heading_2: {
+            text: text,
+        },
+    };
+}
+exports.headingTwo = headingTwo;
+function headingThree(text) {
+    return {
+        object: 'block',
+        type: 'heading_3',
+        heading_3: {
+            text: text,
+        },
+    };
+}
+exports.headingThree = headingThree;
+function bulletedListItem(text, children = []) {
+    return {
+        object: 'block',
+        type: 'bulleted_list_item',
+        bulleted_list_item: {
+            text: text,
+            children: children.length ? children : undefined,
+        },
+    };
+}
+exports.bulletedListItem = bulletedListItem;
+function numberedListItem(text, children = []) {
+    return {
+        object: 'block',
+        type: 'numbered_list_item',
+        numbered_list_item: {
+            text: text,
+            children: children.length ? children : undefined,
+        },
+    };
+}
+exports.numberedListItem = numberedListItem;
+function toDo(checked, text, children = []) {
+    return {
+        object: 'block',
+        type: 'to_do',
+        to_do: {
+            text: text,
+            checked: checked,
+            children: children.length ? children : undefined,
+        },
+    };
+}
+exports.toDo = toDo;
+function table(children = []) {
+    return {
+        object: 'unsupported',
+        type: 'table',
+        table: {
+            children: children.length ? children : undefined,
+        },
+    };
+}
+exports.table = table;
+function tableRow(children = []) {
+    return {
+        object: 'unsupported',
+        type: 'table_row',
+        table_row: {
+            children: children.length ? children : undefined,
+        },
+    };
+}
+exports.tableRow = tableRow;
+function tableCell(children = []) {
+    return {
+        object: 'unsupported',
+        type: 'table_cell',
+        table_cell: {
+            children: children.length ? children : undefined,
+        },
+    };
+}
+exports.tableCell = tableCell;
+//# sourceMappingURL=blocks.js.map
+
+/***/ }),
+
+/***/ 27:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.richText = void 0;
+function richText(content, options = {}) {
+    var _a;
+    const annotations = (_a = options.annotations) !== null && _a !== void 0 ? _a : {};
+    return {
+        type: 'text',
+        annotations: {
+            bold: false,
+            strikethrough: false,
+            underline: false,
+            italic: false,
+            code: false,
+            color: 'default',
+            ...annotations,
+        },
+        text: {
+            content: content,
+            link: options.url
+                ? {
+                    type: 'url',
+                    url: options.url,
+                }
+                : undefined,
+        },
+    };
+}
+exports.richText = richText;
+//# sourceMappingURL=common.js.map
+
+/***/ }),
+
+/***/ 1160:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__webpack_require__(9873), exports);
+__exportStar(__webpack_require__(27), exports);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 3521:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.parseRichText = exports.parseBlocks = void 0;
+const notion = __importStar(__webpack_require__(1160));
+const url_1 = __webpack_require__(7310);
+function ensureLength(text, copy) {
+    const chunks = text.match(/[^]{1,2000}/g) || [];
+    return chunks.flatMap((item) => notion.richText(item, copy));
+}
+function parseInline(element, options) {
+    var _a;
+    const copy = {
+        annotations: {
+            ...((_a = options === null || options === void 0 ? void 0 : options.annotations) !== null && _a !== void 0 ? _a : {}),
+        },
+        url: options === null || options === void 0 ? void 0 : options.url,
+    };
+    switch (element.type) {
+        case 'text':
+            return ensureLength(element.value, copy);
+        case 'delete':
+            copy.annotations.strikethrough = true;
+            return element.children.flatMap(child => parseInline(child, copy));
+        case 'emphasis':
+            copy.annotations.italic = true;
+            return element.children.flatMap(child => parseInline(child, copy));
+        case 'strong':
+            copy.annotations.bold = true;
+            return element.children.flatMap(child => parseInline(child, copy));
+        case 'link':
+            copy.url = element.url;
+            return element.children.flatMap(child => parseInline(child, copy));
+        case 'inlineCode':
+            copy.annotations.code = true;
+            return [notion.richText(element.value, copy)];
+        default:
+            return [];
+    }
+}
+function parseParagraph(element) {
+    // If a paragraph containts an image element as its first element
+    // Lets assume it is an image, and parse it as only that (discard remaining content)
+    const isImage = element.children[0].type === 'image';
+    if (isImage) {
+        const image = element.children[0];
+        try {
+            new url_1.URL(image.url);
+            return notion.image(image.url);
+        }
+        catch (error) {
+            console.log(`${error.input} is not a valid url, I will process this as text for you to fix later`);
+        }
+    }
+    // Paragraphs can also be legacy 'TOC' from some markdown
+    const mightBeToc = element.children.length > 2 &&
+        element.children[0].type === 'text' &&
+        element.children[0].value === '[[' &&
+        element.children[1].type === 'emphasis';
+    if (mightBeToc) {
+        const emphasisItem = element.children[1];
+        const emphasisTextItem = emphasisItem.children[0];
+        if (emphasisTextItem.value === 'TOC') {
+            return notion.table_of_contents();
+        }
+    }
+    const text = element.children.flatMap(child => parseInline(child));
+    return notion.paragraph(text);
+}
+function parseBlockquote(element) {
+    // Quotes can only contain RichText[], but come through as Block[]
+    // This code collects and flattens the common ones
+    const blocks = element.children.flatMap(child => parseNode(child));
+    const paragraphs = blocks.flatMap(child => child);
+    const richtext = paragraphs.flatMap(child => {
+        if (child.paragraph) {
+            return child.paragraph.text;
+        }
+        if (child.heading_1) {
+            return child.heading_1.text;
+        }
+        if (child.heading_2) {
+            return child.heading_2.text;
+        }
+        if (child.heading_3) {
+            return child.heading_3.text;
+        }
+        return [];
+    });
+    return notion.blockquote(richtext);
+}
+function parseHeading(element) {
+    const text = element.children.flatMap(child => parseInline(child));
+    switch (element.depth) {
+        case 1:
+            return notion.headingOne(text);
+        case 2:
+            return notion.headingTwo(text);
+        default:
+            return notion.headingThree(text);
+    }
+}
+function parseCode(element) {
+    const text = ensureLength(element.value);
+    return notion.code(text);
+}
+function parseList(element) {
+    return element.children.flatMap(item => {
+        const paragraph = item.children.shift();
+        if (paragraph === undefined || paragraph.type !== 'paragraph') {
+            return [];
+        }
+        const text = paragraph.children.flatMap(child => parseInline(child));
+        // Now process any of the children
+        const parsedChildren = item.children.flatMap(child => parseNode(child));
+        if (element.start !== null && element.start !== undefined) {
+            return [notion.numberedListItem(text, parsedChildren)];
+        }
+        else if (item.checked !== null && item.checked !== undefined) {
+            return [notion.toDo(item.checked, text, parsedChildren)];
+        }
+        else {
+            return [notion.bulletedListItem(text, parsedChildren)];
+        }
+    });
+}
+function parseTableCell(node) {
+    const text = node.children.flatMap(child => parseInline(child));
+    return [notion.tableCell(text)];
+}
+function parseTableRow(node) {
+    const tableCells = node.children.flatMap(child => parseTableCell(child));
+    return [notion.tableRow(tableCells)];
+}
+function parseTable(node) {
+    const tableRows = node.children.flatMap(child => parseTableRow(child));
+    return [notion.table(tableRows)];
+}
+function parseNode(node, unsupported = false) {
+    switch (node.type) {
+        case 'heading':
+            return [parseHeading(node)];
+        case 'paragraph':
+            return [parseParagraph(node)];
+        case 'code':
+            return [parseCode(node)];
+        case 'blockquote':
+            return [parseBlockquote(node)];
+        case 'list':
+            return parseList(node);
+        case 'table':
+            if (unsupported) {
+                return parseTable(node);
+            }
+            else {
+                return [];
+            }
+        default:
+            return [];
+    }
+}
+function parseBlocks(root, unsupported = false) {
+    return root.children.flatMap(item => parseNode(item, unsupported));
+}
+exports.parseBlocks = parseBlocks;
+function parseRichText(root) {
+    if (root.children.length !== 1 || root.children[0].type !== 'paragraph') {
+        throw new Error(`Unsupported markdown element: ${JSON.stringify(root)}`);
+    }
+    const paragraph = root.children[0];
+    return paragraph.children.flatMap(child => parseInline(child));
+}
+exports.parseRichText = parseRichText;
+//# sourceMappingURL=internal.js.map
 
 /***/ }),
 
@@ -2697,7 +2832,7 @@ var svg = __webpack_require__(1894);
 var utils = __webpack_require__(6687);
 var MUTATE = __webpack_require__(4436);
 var NAMESPACE = utils.NAMESPACE;
-var isApiWritable = __webpack_require__(7749)/* .isApiWritable */ .S;
+var isApiWritable = (__webpack_require__(7749)/* .isApiWritable */ .S);
 
 function Document(isHTML, address) {
   ContainerNode.call(this);
@@ -5368,7 +5503,7 @@ module.exports = HTMLParser;
 var Document = __webpack_require__(9882);
 var DocumentType = __webpack_require__(6944);
 var Node = __webpack_require__(8707);
-var NAMESPACE = __webpack_require__(6687).NAMESPACE;
+var NAMESPACE = (__webpack_require__(6687).NAMESPACE);
 var html = __webpack_require__(4679);
 var impl = html.elements;
 
@@ -22221,7 +22356,7 @@ exports[prop] = parserlib[prop];
 
 var attributes = __webpack_require__(2965);
 var sloppy = __webpack_require__(6408);
-var isApiWritable = __webpack_require__(7749)/* .isApiWritable */ .S;
+var isApiWritable = (__webpack_require__(7749)/* .isApiWritable */ .S);
 
 module.exports = function(spec, defaultConstructor, tagList, tagNameToImpl) {
   var c = spec.ctor;
@@ -23769,8 +23904,8 @@ exports = module.exports = {
 };
 
 utils.merge(exports, __webpack_require__(8823));
-utils.merge(exports, __webpack_require__(4679).elements);
-utils.merge(exports, __webpack_require__(1894).elements);
+utils.merge(exports, (__webpack_require__(4679).elements));
+utils.merge(exports, (__webpack_require__(1894).elements));
 
 
 /***/ }),
@@ -24902,7 +25037,7 @@ define({
 
 var DOMException = __webpack_require__(4525);
 var ERR = DOMException;
-var isApiWritable = __webpack_require__(7749)/* .isApiWritable */ .S;
+var isApiWritable = (__webpack_require__(7749)/* .isApiWritable */ .S);
 
 exports.NAMESPACE = {
   HTML: 'http://www.w3.org/1999/xhtml',
@@ -36197,7 +36332,7 @@ utils.getEncodingFromContentType = function(contentType) {
 
   var Stream
   try {
-    Stream = __webpack_require__(2781).Stream
+    Stream = (__webpack_require__(2781).Stream)
   } catch (ex) {
     Stream = function () {}
   }
@@ -36267,7 +36402,7 @@ utils.getEncodingFromContentType = function(contentType) {
       typeof Buffer.isBuffer === 'function' &&
       Buffer.isBuffer(data)) {
       if (!this._decoder) {
-        var SD = __webpack_require__(1576).StringDecoder
+        var SD = (__webpack_require__(1576).StringDecoder)
         this._decoder = new SD('utf8')
       }
       data = this._decoder.write(data)
@@ -41043,7 +41178,7 @@ module.exports.implForWrapper = function (wrapper) {
 
   builder = __webpack_require__(5532);
 
-  defaults = __webpack_require__(8381).defaults;
+  defaults = (__webpack_require__(8381).defaults);
 
   requiresCDATA = function(entry) {
     return typeof entry === "string" && (entry.indexOf('&') >= 0 || entry.indexOf('>') >= 0 || entry.indexOf('<') >= 0);
@@ -41264,9 +41399,9 @@ module.exports.implForWrapper = function (wrapper) {
 
   processors = __webpack_require__(7526);
 
-  setImmediate = __webpack_require__(9512).setImmediate;
+  setImmediate = (__webpack_require__(9512).setImmediate);
 
-  defaults = __webpack_require__(8381).defaults;
+  defaults = (__webpack_require__(8381).defaults);
 
   isEmpty = function(thing) {
     return typeof thing === "object" && (thing != null) && Object.keys(thing).length === 0;
@@ -42447,7 +42582,7 @@ module.exports.implForWrapper = function (wrapper) {
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  isObject = __webpack_require__(8369).isObject;
+  isObject = (__webpack_require__(8369).isObject);
 
   XMLNode = __webpack_require__(2026);
 
@@ -42610,7 +42745,7 @@ module.exports.implForWrapper = function (wrapper) {
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  isObject = __webpack_require__(8369).isObject;
+  isObject = (__webpack_require__(8369).isObject);
 
   XMLNode = __webpack_require__(2026);
 
@@ -42660,7 +42795,7 @@ module.exports.implForWrapper = function (wrapper) {
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  isObject = __webpack_require__(8369).isObject;
+  isObject = (__webpack_require__(8369).isObject);
 
   XMLNode = __webpack_require__(2026);
 
@@ -42853,7 +42988,7 @@ module.exports.implForWrapper = function (wrapper) {
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
-  isPlainObject = __webpack_require__(8369).isPlainObject;
+  isPlainObject = (__webpack_require__(8369).isPlainObject);
 
   XMLDOMImplementation = __webpack_require__(1770);
 
@@ -45517,7 +45652,7 @@ module.exports.implForWrapper = function (wrapper) {
   var NodeType, WriterState, XMLCData, XMLComment, XMLDTDAttList, XMLDTDElement, XMLDTDEntity, XMLDTDNotation, XMLDeclaration, XMLDocType, XMLDummy, XMLElement, XMLProcessingInstruction, XMLRaw, XMLText, XMLWriterBase, assign,
     hasProp = {}.hasOwnProperty;
 
-  assign = __webpack_require__(8369).assign;
+  assign = (__webpack_require__(8369).assign);
 
   NodeType = __webpack_require__(9335);
 
@@ -47271,7 +47406,7 @@ Object.defineProperty(Response.prototype, Symbol.toStringTag, {
 });
 
 const INTERNALS$2 = Symbol('Request internals');
-const URL = public_api.URL;
+const URL = external_url_.URL || public_api.URL;
 
 // fix an issue where "format", "parse" aren't a named export for node <10
 const parse_url = external_url_.parse;
@@ -47801,7 +47936,7 @@ fetch.Promise = global.Promise;
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"@notionhq/client","version":"0.4.3","description":"A simple and easy to use client for the Notion API","engines":{"node":">=12"},"homepage":"https://developers.notion.com/docs/getting-started","bugs":{"url":"https://github.com/makenotion/notion-sdk-js/issues"},"repository":{"type":"git","url":"https://github.com/makenotion/notion-sdk-js/"},"keywords":["notion","notionapi","rest","notion-api"],"main":"./build/src","scripts":{"prepare":"npm run build","prepublishOnly":"npm run lint && npm run test","build":"tsc","prettier":"prettier --write .","lint":"prettier --check . && eslint . --ext .ts && cspell \'**/*\' ","test":"ava","check-links":"git ls-files | grep md$ | xargs -n 1 markdown-link-check","prebuild":"npm run clean","clean":"rm -rf ./build"},"author":"","license":"MIT","files":["build/package.json","build/src/**"],"dependencies":{"@types/node-fetch":"^2.5.10","node-fetch":"^2.6.1"},"devDependencies":{"@ava/typescript":"^2.0.0","@typescript-eslint/eslint-plugin":"^4.22.0","@typescript-eslint/parser":"^4.22.0","ava":"^3.15.0","cspell":"^5.4.1","eslint":"^7.24.0","markdown-link-check":"^3.8.7","prettier":"^2.3.0","typescript":"^4.2.4"}}');
+module.exports = JSON.parse('{"name":"@notionhq/client","version":"0.4.9","description":"A simple and easy to use client for the Notion API","engines":{"node":">=12"},"homepage":"https://developers.notion.com/docs/getting-started","bugs":{"url":"https://github.com/makenotion/notion-sdk-js/issues"},"repository":{"type":"git","url":"https://github.com/makenotion/notion-sdk-js/"},"keywords":["notion","notionapi","rest","notion-api"],"main":"./build/src","scripts":{"prepare":"npm run build","prepublishOnly":"npm run checkLoggedIn && npm run lint && npm run test","build":"tsc","prettier":"prettier --write .","lint":"prettier --check . && eslint . --ext .ts && cspell \'**/*\' ","test":"ava","check-links":"git ls-files | grep md$ | xargs -n 1 markdown-link-check","prebuild":"npm run clean","clean":"rm -rf ./build","checkLoggedIn":"./scripts/verifyLoggedIn.sh"},"author":"","license":"MIT","files":["build/package.json","build/src/**"],"dependencies":{"@types/node-fetch":"^2.5.10","node-fetch":"^2.6.1"},"devDependencies":{"@ava/typescript":"^2.0.0","@typescript-eslint/eslint-plugin":"^4.22.0","@typescript-eslint/parser":"^4.22.0","ava":"^3.15.0","cspell":"^5.4.1","eslint":"^7.24.0","markdown-link-check":"^3.8.7","prettier":"^2.3.0","typescript":"^4.2.4"}}');
 
 /***/ }),
 
@@ -47965,17 +48100,25 @@ async function getFeedUrlsFromNotion() {
     auth: NOTION_API_TOKEN,
     logLevel
   });
-  const response = await notion.databases.query({
-    database_id: NOTION_FEEDS_DATABASE_ID,
-    filter: {
-      or: [{
-        property: 'Enabled',
-        checkbox: {
-          equals: true
-        }
-      }]
-    }
-  });
+  let response;
+
+  try {
+    response = await notion.databases.query({
+      database_id: NOTION_FEEDS_DATABASE_ID,
+      filter: {
+        or: [{
+          property: 'Enabled',
+          checkbox: {
+            equals: true
+          }
+        }]
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
+
   const feeds = response.results.map(item => ({
     title: item.properties.Title.title[0].plain_text,
     feedUrl: item.properties.Link.url
@@ -47992,26 +48135,31 @@ async function addFeedItemToNotion(notionItem) {
     auth: NOTION_API_TOKEN,
     logLevel
   });
-  await notion.pages.create({
-    parent: {
-      database_id: NOTION_READER_DATABASE_ID
-    },
-    properties: {
-      Title: {
-        title: [{
-          text: {
-            content: title
-          }
-        }]
+
+  try {
+    await notion.pages.create({
+      parent: {
+        database_id: NOTION_READER_DATABASE_ID
       },
-      Link: {
-        url: link
-      }
-    },
-    children: content
-  });
+      properties: {
+        Title: {
+          title: [{
+            text: {
+              content: title
+            }
+          }]
+        },
+        Link: {
+          url: link
+        }
+      },
+      children: content
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
-async function deleteOldUnreadItemsFromNotion() {
+async function deleteOldUnreadFeedItemsFromNotion() {
   const notion = new src/* Client */.KU({
     auth: NOTION_API_TOKEN,
     logLevel
@@ -48021,31 +48169,44 @@ async function deleteOldUnreadItemsFromNotion() {
   fetchBeforeDate.setDate(fetchBeforeDate.getDate() - 30); // Query the feed reader database
   // and fetch only those items that are unread or created before last 30 days
 
-  const response = await notion.databases.query({
-    database_id: NOTION_READER_DATABASE_ID,
-    filter: {
-      and: [{
-        property: 'Created At',
-        date: {
-          on_or_before: fetchBeforeDate.toJSON()
-        }
-      }, {
-        property: 'Read',
-        checkbox: {
-          equals: false
-        }
-      }]
-    }
-  }); // Get the page IDs from the response
+  let response;
+
+  try {
+    response = await notion.databases.query({
+      database_id: NOTION_READER_DATABASE_ID,
+      filter: {
+        and: [{
+          property: 'Created At',
+          date: {
+            on_or_before: fetchBeforeDate.toJSON()
+          }
+        }, {
+          property: 'Read',
+          checkbox: {
+            equals: false
+          }
+        }]
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    return;
+  } // Get the page IDs from the response
+
 
   const feedItemsIds = response.results.map(item => item.id);
 
   for (let i = 0; i < feedItemsIds.length; i++) {
     const id = feedItemsIds[i];
-    await notion.pages.update({
-      page_id: id,
-      archived: true
-    });
+
+    try {
+      await notion.pages.update({
+        page_id: id,
+        archived: true
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 ;// CONCATENATED MODULE: ./src/feed.js
@@ -48074,6 +48235,7 @@ async function getNewFeedItems() {
     const {
       feedUrl
     } = feeds[i];
+    console.log(`Fetching feed items from ${feedUrl}`);
     const feedItems = await getNewFeedItemsFrom(feedUrl);
     allNewFeedItems = [...allNewFeedItems, ...feedItems];
   } // sort feed items by published date
@@ -48082,8 +48244,8 @@ async function getNewFeedItems() {
   allNewFeedItems.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
   return allNewFeedItems;
 }
-// EXTERNAL MODULE: ./node_modules/@instantish/martian/build/src/index.js
-var build_src = __webpack_require__(129);
+// EXTERNAL MODULE: ./node_modules/@tryfabric/martian/build/src/index.js
+var build_src = __webpack_require__(4906);
 ;// CONCATENATED MODULE: ./node_modules/turndown/lib/turndown.es.js
 function extend (destination) {
   for (var i = 1; i < arguments.length; i++) {
@@ -49034,38 +49196,18 @@ function canConvert (input) {
 
 
 
-function htmlToMarkdown(htmlContent) {
+function htmlToMarkdownJSON(htmlContent) {
   const turndownService = new turndown_es();
   return turndownService.turndown(htmlContent);
 }
 
 function jsonToNotionBlocks(markdownContent) {
-  const notionBlocks = (0,build_src.markdownToBlocks)(markdownContent);
-  return notionBlocks;
+  return (0,build_src.markdownToBlocks)(markdownContent);
 }
 
 function htmlToNotionBlocks(htmlContent) {
-  const imageUrlRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|webp|gif|png)/gi;
-  const markdownContent = htmlToMarkdown(htmlContent);
-  const notionBlocks = jsonToNotionBlocks(markdownContent);
-  const notionBlocksWithImages = notionBlocks.map(block => {
-    if (block.type === 'paragraph') {
-      if (imageUrlRegex.test(block.paragraph.text[0].text.content)) {
-        return {
-          type: 'image',
-          image: {
-            type: 'external',
-            external: {
-              url: block.paragraph.text[0].text.content
-            }
-          }
-        };
-      }
-    }
-
-    return block;
-  });
-  return notionBlocksWithImages;
+  const markdownJson = htmlToMarkdownJSON(htmlContent);
+  return jsonToNotionBlocks(markdownJson);
 }
 ;// CONCATENATED MODULE: ./src/index.js
 
@@ -49085,7 +49227,7 @@ async function index() {
     await addFeedItemToNotion(notionItem);
   }
 
-  await deleteOldUnreadItemsFromNotion();
+  await deleteOldUnreadFeedItemsFromNotion();
 }
 
 index();
