@@ -18,19 +18,25 @@ export async function getFeedUrlsFromNotion() {
     logLevel,
   });
 
-  const response = await notion.databases.query({
-    database_id: NOTION_FEEDS_DATABASE_ID,
-    filter: {
-      or: [
-        {
-          property: 'Enabled',
-          checkbox: {
-            equals: true,
+  let response;
+  try {
+    response = await notion.databases.query({
+      database_id: NOTION_FEEDS_DATABASE_ID,
+      filter: {
+        or: [
+          {
+            property: 'Enabled',
+            checkbox: {
+              equals: true,
+            },
           },
-        },
-      ],
-    },
-  });
+        ],
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 
   const feeds = response.results.map((item) => ({
     title: item.properties.Title.title[0].plain_text,
@@ -48,29 +54,33 @@ export async function addFeedItemToNotion(notionItem) {
     logLevel,
   });
 
-  await notion.pages.create({
-    parent: {
-      database_id: NOTION_READER_DATABASE_ID,
-    },
-    properties: {
-      Title: {
-        title: [
-          {
-            text: {
-              content: title,
+  try {
+    await notion.pages.create({
+      parent: {
+        database_id: NOTION_READER_DATABASE_ID,
+      },
+      properties: {
+        Title: {
+          title: [
+            {
+              text: {
+                content: title,
+              },
             },
-          },
-        ],
+          ],
+        },
+        Link: {
+          url: link,
+        },
       },
-      Link: {
-        url: link,
-      },
-    },
-    children: content,
-  });
+      children: content,
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
-export async function deleteOldUnreadItemsFromNotion() {
+export async function deleteOldUnreadFeedItemsFromNotion() {
   const notion = new Client({
     auth: NOTION_API_TOKEN,
     logLevel,
@@ -82,34 +92,44 @@ export async function deleteOldUnreadItemsFromNotion() {
 
   // Query the feed reader database
   // and fetch only those items that are unread or created before last 30 days
-  const response = await notion.databases.query({
-    database_id: NOTION_READER_DATABASE_ID,
-    filter: {
-      and: [
-        {
-          property: 'Created At',
-          date: {
-            on_or_before: fetchBeforeDate.toJSON(),
+  let response;
+  try {
+    response = await notion.databases.query({
+      database_id: NOTION_READER_DATABASE_ID,
+      filter: {
+        and: [
+          {
+            property: 'Created At',
+            date: {
+              on_or_before: fetchBeforeDate.toJSON(),
+            },
           },
-        },
-        {
-          property: 'Read',
-          checkbox: {
-            equals: false,
+          {
+            property: 'Read',
+            checkbox: {
+              equals: false,
+            },
           },
-        },
-      ],
-    },
-  });
+        ],
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return;
+  }
 
   // Get the page IDs from the response
   const feedItemsIds = response.results.map((item) => item.id);
 
   for (let i = 0; i < feedItemsIds.length; i++) {
     const id = feedItemsIds[i];
-    await notion.pages.update({
-      page_id: id,
-      archived: true,
-    });
+    try {
+      await notion.pages.update({
+        page_id: id,
+        archived: true,
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
