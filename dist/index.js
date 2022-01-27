@@ -48221,7 +48221,7 @@ async function getNewFeedItemsFrom(feedUrl) {
   try {
     rss = await parser.parseURL(feedUrl);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return [];
   }
 
@@ -49205,8 +49205,13 @@ function canConvert (input) {
 
 
 function htmlToMarkdownJSON(htmlContent) {
-  const turndownService = new turndown_es();
-  return turndownService.turndown(htmlContent);
+  try {
+    const turndownService = new turndown_es();
+    return turndownService.turndown(htmlContent);
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
 }
 
 function jsonToNotionBlocks(markdownContent) {
