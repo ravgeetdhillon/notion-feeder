@@ -8,7 +8,7 @@ async function getNewFeedItemsFrom(feedUrl) {
   try {
     rss = await parser.parseURL(feedUrl);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return [];
   }
   const todaysDate = new Date().getTime() / 1000;
