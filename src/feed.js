@@ -4,7 +4,13 @@ import { getFeedUrlsFromNotion } from './notion';
 
 async function getNewFeedItemsFrom(feedUrl) {
   const parser = new Parser();
-  const rss = await parser.parseURL(feedUrl);
+  let rss;
+  try {
+    rss = await parser.parseURL(feedUrl);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
   const todaysDate = new Date().getTime() / 1000;
   return rss.items.filter((item) => {
     const blogPublishedDate = new Date(item.pubDate).getTime() / 1000;
