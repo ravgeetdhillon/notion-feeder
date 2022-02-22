@@ -52,7 +52,7 @@ Different views of accessing Unread, Starred feed items.
    NOTION_READER_DATABASE_ID
    NOTION_FEEDS_DATABASE_ID
    ```
-    > To find your database id, visit your database on Notion. You'll get a URL like this: https://www.notion.so/{workspace_name}/{database_id}?v={view_id}.
+    > To find your database id, visit your database on Notion. You'll get a URL like this: https://www.notion.so/{workspace_name}/{database_id}?v={view_id}. For example, if your URL looks like this: https://www.notion.so/abc/xyz?v=123, then `xyz` is your database ID.
 
 8. Delete the [release workflow file](.github/workflows/release.yml) as it is only required in the original repository.
 
