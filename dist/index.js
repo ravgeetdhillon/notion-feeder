@@ -887,8 +887,8 @@ const remark_gfm_1 = __importDefault(__webpack_require__(43));
  * @param body any Markdown or GFM content
  */
 function markdownToBlocks(body, allowUnsupportedObjectType = false) {
-    const root = unified_1.default().use(remark_parse_1.default).use(remark_gfm_1.default).parse(body);
-    return internal_1.parseBlocks(root, allowUnsupportedObjectType);
+    const root = (0, unified_1.default)().use(remark_parse_1.default).use(remark_gfm_1.default).parse(body);
+    return (0, internal_1.parseBlocks)(root, allowUnsupportedObjectType);
 }
 exports.markdownToBlocks = markdownToBlocks;
 /**
@@ -898,8 +898,8 @@ exports.markdownToBlocks = markdownToBlocks;
  * @param text any inline Markdown or GFM content
  */
 function markdownToRichText(text) {
-    const root = unified_1.default().use(remark_parse_1.default).use(remark_gfm_1.default).parse(text);
-    return internal_1.parseRichText(root);
+    const root = (0, unified_1.default)().use(remark_parse_1.default).use(remark_gfm_1.default).parse(text);
+    return (0, internal_1.parseRichText)(root);
 }
 exports.markdownToRichText = markdownToRichText;
 //# sourceMappingURL=index.js.map
@@ -1310,11 +1310,16 @@ function parseBlocks(root, unsupported = false) {
 }
 exports.parseBlocks = parseBlocks;
 function parseRichText(root) {
-    if (root.children.length !== 1 || root.children[0].type !== 'paragraph') {
+    if (root.children[0].type !== 'paragraph') {
         throw new Error(`Unsupported markdown element: ${JSON.stringify(root)}`);
     }
-    const paragraph = root.children[0];
-    return paragraph.children.flatMap(child => parseInline(child));
+    const richTexts = [];
+    root.children.forEach(paragraph => {
+        if (paragraph.type === 'paragraph') {
+            paragraph.children.forEach(child => richTexts.push(...parseInline(child)));
+        }
+    });
+    return richTexts;
 }
 exports.parseRichText = parseRichText;
 //# sourceMappingURL=internal.js.map
@@ -48243,7 +48248,6 @@ async function getNewFeedItems() {
     const {
       feedUrl
     } = feeds[i];
-    console.log(`Fetching feed items from ${feedUrl}`);
     const feedItems = await getNewFeedItemsFrom(feedUrl);
     allNewFeedItems = [...allNewFeedItems, ...feedItems];
   } // sort feed items by published date
