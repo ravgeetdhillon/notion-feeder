@@ -10,6 +10,14 @@ A Node.js app for creating a Feed Reader in [Notion](https://notion.so).
 
 ![](/screenshots/working.gif)
 
+***
+
+If you loved this product and value my time, consider sending some love to me. This will enable me to work on more projects like these in the future.
+
+[![PayPal Donate Button](https://images.squarespace-cdn.com/content/v1/55f62c4ce4b02545cc6ee94f/1558204823259-CQ0YNKZEHP7W5LO64PBU/paypal-donate-button-1.PNG?format=300w)](https://paypal.me/ravgeetdhillon)
+
+***
+
 ## Features
 
 Separate database for your feed sources and feed items.
@@ -57,14 +65,6 @@ Different views of accessing Unread, Starred feed items.
 8. Delete the [release workflow file](.github/workflows/release.yml) as it is only required in the original repository.
 
 That's it. Now every day, your feed will be updated at 12:30 UTC. You can change the time at which the script runs from [here](.github/workflows/main.yml#L5).
-
-***
-
-If you loved this product, consider sending some love to me. This will enable me to work on more project like these in the future.
-
-[![PayPal Donate Button](https://images.squarespace-cdn.com/content/v1/55f62c4ce4b02545cc6ee94f/1558204823259-CQ0YNKZEHP7W5LO64PBU/paypal-donate-button-1.PNG?format=300w)](https://paypal.me/ravgeetdhillon)
-
-***
 
 ## Development
 
