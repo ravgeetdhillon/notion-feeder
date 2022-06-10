@@ -12,6 +12,40 @@ const {
 
 const logLevel = CI ? LogLevel.INFO : LogLevel.DEBUG;
 
+// getting all exsisting pages with pagination
+export async function getExistingPages(items) {
+  const notion = new Client({
+    auth: NOTION_API_TOKEN,
+    logLevel,
+  });
+
+  let response;
+  response = await notion.databases.query({
+    database_id: NOTION_READER_DATABASE_ID,
+    or: items.map((item) => ({
+      property: 'Link',
+      text: {
+        equals: item.link,
+      },
+    })),
+  });
+  response = [...response.results];
+  while (response.has_more) {
+    response = await notion.databases.query({
+      database_id: NOTION_READER_DATABASE_ID,
+      or: items.map((item) => ({
+        property: 'Link',
+        text: {
+          equals: item.link,
+        },
+      })),
+      start_cursor: response.next_cursor,
+    });
+    response = [...response.results, ...response.results];
+  }
+  return response;
+}
+
 export async function getFeedUrlsFromNotion() {
   const notion = new Client({
     auth: NOTION_API_TOKEN,
