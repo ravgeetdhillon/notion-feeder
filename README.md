@@ -46,7 +46,7 @@ Different views of accessing Unread, Starred feed items.
 
 2. Duplicate this [template](https://ravsamhq.notion.site/Feeder-fa2aa54827fa42c2af1eb25c7a45a408) to your Notion workspace.
 
-3. Once the template is available on your Notion Workspace, open the **Reader** database. Click *Share > Invite* and search the Notion integration you created in Step 1 and Click **Invite**. Do the same for the **Feeds** database.
+3. Once the template is available on your Notion Workspace, open the **Reader** database. Click the three-button page menu in the top right corner **...** *> Add connections* and search the Notion integration you created in Step 1 and Click **Invite**. Do the same for the **Feeds** database.
 
 4. Fork this GitHub repository and once forking is complete, go to your forked GitHub repository.
 
