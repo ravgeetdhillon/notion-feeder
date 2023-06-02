@@ -48069,6 +48069,8 @@ var __webpack_exports__ = {};
 // EXTERNAL MODULE: ./node_modules/rss-parser/index.js
 var rss_parser = __webpack_require__(5003);
 var rss_parser_default = /*#__PURE__*/__webpack_require__.n(rss_parser);
+// EXTERNAL MODULE: ./node_modules/dotenv/lib/main.js
+var main = __webpack_require__(9738);
 ;// CONCATENATED MODULE: ./src/helpers.js
 function timeDifference(date1, date2) {
   const difference = Math.floor(date1) - Math.floor(date2);
@@ -48085,8 +48087,6 @@ function timeDifference(date1, date2) {
     diffInSeconds
   };
 }
-// EXTERNAL MODULE: ./node_modules/dotenv/lib/main.js
-var main = __webpack_require__(9738);
 // EXTERNAL MODULE: ./node_modules/@notionhq/client/build/src/index.js
 var src = __webpack_require__(9267);
 ;// CONCATENATED MODULE: ./src/notion.js
@@ -48219,6 +48219,11 @@ async function deleteOldUnreadFeedItemsFromNotion() {
 
 
 
+main.config();
+const {
+  RUN_FREQUENCY
+} = process.env;
+
 async function getNewFeedItemsFrom(feedUrl) {
   const parser = new (rss_parser_default())();
   let rss;
@@ -48230,13 +48235,14 @@ async function getNewFeedItemsFrom(feedUrl) {
     return [];
   }
 
-  const todaysDate = new Date().getTime() / 1000;
+  const currentTime = new Date().getTime() / 1000; // Filter out items that fall in the run frequency range
+
   return rss.items.filter(item => {
-    const blogPublishedDate = new Date(item.pubDate).getTime() / 1000;
+    const blogPublishedTime = new Date(item.pubDate).getTime() / 1000;
     const {
-      diffInDays
-    } = timeDifference(todaysDate, blogPublishedDate);
-    return diffInDays === 0;
+      diffInSeconds
+    } = timeDifference(currentTime, blogPublishedTime);
+    return diffInSeconds < RUN_FREQUENCY;
   });
 }
 
