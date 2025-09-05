@@ -13,7 +13,9 @@ async function index() {
     const notionItem = {
       title: item.title,
       link: item.link,
-      content: htmlToNotionBlocks(item.content),
+      // content: htmlToNotionBlocks(item.content),
+      // 본문 전체를 블록으로 변환해 children에 넣기
+      content: htmlToNotionBlocks(item.articleContent)
     };
     await addFeedItemToNotion(notionItem);
   }
